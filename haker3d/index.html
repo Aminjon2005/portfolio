@@ -1,0 +1,382 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AMINJON | PORTFOLIO</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #111;
+      color: #eee;
+      font-family: 'Roboto Mono', monospace;
+      line-height: 1.5;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    .matrix-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 30px;
+      position: relative;
+      z-index: 1;
+    }
+
+    header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 40px;
+      gap: 15px;
+    }
+
+    header img.logo {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: 2px solid #0ff;
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      color: #0ff;
+      text-align: center;
+      position: relative;
+    }
+
+    h1::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50px;
+      height: 2px;
+      background: #0ff;
+    }
+
+    .section {
+      margin-bottom: 50px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .section h2 {
+      font-size: 2rem;
+      color: #0ff;
+      margin-bottom: 20px;
+      position: relative;
+      padding-left: 20px;
+    }
+
+    .section h2::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+      width: 10px;
+      height: 10px;
+      background: #0ff;
+      border-radius: 50%;
+    }
+
+    .about-me {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .profile-image {
+      flex: 0 0 150px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2px solid #0ff;
+    }
+
+    .profile-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .about-content {
+      flex: 1;
+    }
+
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 30px;
+    }
+
+    .project {
+      background: #222;
+      border-radius: 8px;
+      padding: 20px;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .project:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 25px rgba(0, 255, 255, 0.2);
+    }
+
+    .project-image {
+      width: 100%;
+      height: 160px;
+      border-radius: 6px;
+      overflow: hidden;
+      margin-bottom: 15px;
+    }
+
+    .project-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .project:hover .project-image img {
+      transform: scale(1.1);
+    }
+
+    .project h3 {
+      font-size: 1.4rem;
+      color: #0ff;
+      margin-bottom: 10px;
+    }
+
+    .project p {
+      color: #bbb;
+      font-size: 0.95rem;
+      margin-bottom: 15px;
+    }
+
+    .btn-project {
+      display: inline-block;
+      margin-bottom: 15px;
+      padding: 8px 15px;
+      background: #0ff;
+      color: #111;
+      border-radius: 4px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: background 0.3s, transform 0.3s;
+    }
+
+    .btn-project:hover {
+      background: #ff00c1;
+      transform: scale(1.05);
+    }
+
+    .tech-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tech-icon {
+      background: #333;
+      padding: 6px 10px;
+      border-radius: 4px;
+      color: #0ff;
+      font-size: 0.8rem;
+      transition: background 0.3s ease;
+    }
+
+    .tech-icon:hover {
+      background: #0ff;
+      color: #111;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 50px;
+      color: #555;
+      font-size: 0.85rem;
+    }
+
+    footer a {
+      color: #0ff;
+      text-decoration: none;
+    }
+
+    @media (max-width: 768px) {
+      .about-me {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .profile-image {
+        margin-bottom: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="matrix-overlay" class="matrix-overlay"></canvas>
+
+  <div class="container">
+    <header>
+      <img src="images/logo.png" alt="Logo" class="logo">
+      <h1>AMINJON'S PORTFOLIO</h1>
+    </header>
+
+    <div class="section about">
+      <h2>About Me</h2>
+      <div class="about-me">
+        <div class="profile-image">
+          <img src="images/profile.jpg" alt="Profile Image">
+        </div>
+        <div class="about-content">
+          <p>I am a passionate full-stack developer with over 5 years of experience in building scalable and robust web applications.</p>
+          <p>I love solving complex problems and building efficient systems that deliver a great user experience.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section projects">
+      <h2>Projects</h2>
+      <div class="projects">
+        <!-- Project 1 -->
+        <div class="project">
+          <div class="project-image">
+            <img src="images/project1.jpg" alt="E-commerce Platform">
+          </div>
+          <h3>E-commerce Platform</h3>
+          <p>A scalable e-commerce platform built with React, Node.js, and MongoDB.</p>
+          <a href="https://github.com/aminjon/ecommerce" class="btn-project">View Project</a>
+          <div class="tech-stack">
+            <div class="tech-icon">React</div>
+            <div class="tech-icon">Node.js</div>
+            <div class="tech-icon">MongoDB</div>
+          </div>
+        </div>
+        <!-- Project 2 -->
+        <div class="project">
+          <div class="project-image">
+            <img src="images/project2.jpg" alt="Social Media App">
+          </div>
+          <h3>Social Media App</h3>
+          <p>A social media application built with Vue.js, Flask, and PostgreSQL.</p>
+          <a href="https://github.com/aminjon/social-app" class="btn-project">View Project</a>
+          <div class="tech-stack">
+            <div class="tech-icon">Vue.js</div>
+            <div class="tech-icon">Flask</div>
+            <div class="tech-icon">PostgreSQL</div>
+          </div>
+        </div>
+        <!-- Project 3 -->
+        <div class="project">
+          <div class="project-image">
+            <img src="images/project3.jpg" alt="API Gateway">
+          </div>
+          <h3>API Gateway</h3>
+          <p>An API gateway built with Express.js, Docker, and Kubernetes for microservices.</p>
+          <a href="https://github.com/aminjon/api-gateway" class="btn-project">View Project</a>
+          <div class="tech-stack">
+            <div class="tech-icon">Express</div>
+            <div class="tech-icon">Docker</div>
+            <div class="tech-icon">Kubernetes</div>
+          </div>
+        </div>
+        <!-- Project 4 -->
+        <div class="project">
+          <div class="project-image">
+            <img src="images/project4.jpg" alt="Portfolio Website">
+          </div>
+          <h3>Portfolio Website</h3>
+          <p>A personal portfolio website designed with HTML, CSS, and JavaScript to showcase my skills.</p>
+          <a href="https://github.com/aminjon/portfolio" class="btn-project">View Project</a>
+          <div class="tech-stack">
+            <div class="tech-icon">HTML</div>
+            <div class="tech-icon">CSS</div>
+            <div class="tech-icon">JavaScript</div>
+          </div>
+        </div>
+        <!-- Project 5 -->
+        <div class="project">
+          <div class="project-image">
+            <img src="images/project5.jpg" alt="AI Chatbot">
+          </div>
+          <h3>AI Chatbot</h3>
+          <p>An intelligent chatbot powered by Python and OpenAI API for customer support automation.</p>
+          <a href="https://github.com/aminjon/ai-chatbot" class="btn-project">View Project</a>
+          <div class="tech-stack">
+            <div class="tech-icon">Python</div>
+            <div class="tech-icon">OpenAI</div>
+            <div class="tech-icon">FastAPI</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <p>© 2025 Aminjon. Built with ❤️ and JavaScript. <a href="#">Back to top</a></p>
+    </footer>
+  </div>
+
+  <script>
+    const canvas = document.getElementById("matrix-overlay");
+    const ctx = canvas.getContext("2d");
+
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+
+    const letters = "アミンジョンPORTFOLIO01".split("");
+    const fontSize = 16;
+    const columns = canvas.width / fontSize;
+    const drops = [];
+
+    for (let i = 0; i < columns; i++) {
+      drops[i] = 1;
+    }
+
+    function drawMatrix() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = "#0ff";
+      ctx.font = fontSize + "px monospace";
+
+      for (let i = 0; i < drops.length; i++) {
+        const text = letters[Math.floor(Math.random() * letters.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+
+    setInterval(drawMatrix, 35);
+
+    window.addEventListener("resize", () => {
+      canvas.height = window.innerHeight;
+      canvas.width = window.innerWidth;
+    });
+  </script>
+</body>
+</html>
+```
