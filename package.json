@@ -1,0 +1,42 @@
+{
+  "name": "block-blast-game-appodeal",
+  "version": "1.0.0",
+  "description": "Block Blast game with Appodeal integration for monetization",
+  "main": "block-blast-game.html",
+  "scripts": {
+    "start": "python3 -m http.server 8000",
+    "serve": "python3 -m http.server 8000",
+    "dev": "python3 -m http.server 8000",
+    "build": "echo 'No build process needed for HTML5 game'",
+    "test": "echo 'No tests specified'"
+  },
+  "keywords": [
+    "html5",
+    "game",
+    "block-blast",
+    "appodeal",
+    "monetization",
+    "mobile",
+    "javascript"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "devDependencies": {},
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/block-blast-game-appodeal.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/block-blast-game-appodeal/issues"
+  },
+  "homepage": "https://github.com/yourusername/block-blast-game-appodeal#readme",
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}
