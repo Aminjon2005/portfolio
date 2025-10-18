@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Block Blast - Игра</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .game-container {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+        }
+
+        .game-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .game-title {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .score-board {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .score-item {
+            text-align: center;
+        }
+
+        .score-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .score-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .game-board {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 2px;
+            background: #ddd;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            aspect-ratio: 1;
+        }
+
+        .cell {
+            background: #fff;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .cell.filled {
+            background: #4CAF50;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .cell.highlight {
+            background: #81C784;
+            transform: scale(1.05);
+        }
+
+        .next-blocks {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .next-block {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            flex: 1;
+            margin: 0 5px;
+        }
+
+        .next-block-title {
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .next-block-preview {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px;
+            width: 60px;
+            height: 60px;
+            margin: 0 auto;
+        }
+
+        .preview-cell {
+            background: #ddd;
+            border-radius: 2px;
+        }
+
+        .preview-cell.filled {
+            background: #FF9800;
+        }
+
+        .game-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #f44336;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #da190b;
+            transform: translateY(-2px);
+        }
+
+        .game-over {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            border-radius: 20px;
+        }
+
+        .game-over.show {
+            display: flex;
+        }
+
+        .game-over-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            max-width: 300px;
+        }
+
+        .game-over h2 {
+            color: #f44336;
+            margin-bottom: 15px;
+            font-size: 2rem;
+        }
+
+        .final-score {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .ad-container {
+            margin: 20px 0;
+            text-align: center;
+            min-height: 100px;
+            background: #f0f0f0;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+        }
+
+        @keyframes bonusFloat {
+            0% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-30px);
+                opacity: 0;
+            }
+        }
+
+        .score-item {
+            position: relative;
+        }
+
+        @media (max-width: 600px) {
+            .game-container {
+                padding: 15px;
+                margin: 10px;
+            }
+            
+            .game-title {
+                font-size: 2rem;
+            }
+            
+            .score-board {
+                padding: 10px;
+            }
+            
+            .score-value {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <div class="game-header">
+            <h1 class="game-title">Block Blast</h1>
+        </div>
+
+        <div class="score-board">
+            <div class="score-item">
+                <div class="score-label">Очки</div>
+                <div class="score-value" id="score">0</div>
+            </div>
+            <div class="score-item">
+                <div class="score-label">Уровень</div>
+                <div class="score-value" id="level">1</div>
+            </div>
+            <div class="score-item">
+                <div class="score-label">Линии</div>
+                <div class="score-value" id="lines">0</div>
+            </div>
+        </div>
+
+        <div class="ad-container" id="ad-container">
+            <div>Реклама Appodeal</div>
+        </div>
+
+        <div class="game-board" id="gameBoard">
+            <!-- Игровое поле будет создано через JavaScript -->
+        </div>
+
+        <div class="next-blocks">
+            <div class="next-block">
+                <div class="next-block-title">Следующий</div>
+                <div class="next-block-preview" id="nextBlock1"></div>
+            </div>
+            <div class="next-block">
+                <div class="next-block-title">После</div>
+                <div class="next-block-preview" id="nextBlock2"></div>
+            </div>
+        </div>
+
+        <div class="game-controls">
+            <button class="btn btn-primary" id="startBtn">Начать</button>
+            <button class="btn btn-secondary" id="pauseBtn">Пауза</button>
+            <button class="btn btn-secondary" id="restartBtn">Заново</button>
+            <button class="btn btn-primary" id="rewardBtn" style="background: #FF9800;">Бонус +100</button>
+        </div>
+
+        <div class="game-over" id="gameOver">
+            <div class="game-over-content">
+                <h2>Игра окончена!</h2>
+                <div class="final-score">Финальный счет: <span id="finalScore">0</span></div>
+                <button class="btn btn-primary" id="playAgainBtn">Играть снова</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Подключение Appodeal SDK -->
+    <script src="appodeal-integration.js"></script>
+    <!-- Подключение Sound Manager -->
+    <script src="sound-manager.js"></script>
+    <!-- Подключение Mobile Optimization -->
+    <script src="mobile-optimization.js"></script>
+    
+    <script>
+        // Игровые константы
+        const BOARD_WIDTH = 10;
+        const BOARD_HEIGHT = 10;
+        const CELL_SIZE = 30;
+
+        // Игровые переменные
+        let gameBoard = [];
+        let score = 0;
+        let level = 1;
+        let lines = 0;
+        let gameRunning = false;
+        let currentBlocks = [];
+        let nextBlocks = [];
+
+        // Блоки для игры
+        const BLOCK_SHAPES = [
+            // I-блок
+            [
+                [1, 1, 1, 1]
+            ],
+            // L-блок
+            [
+                [1, 0],
+                [1, 0],
+                [1, 1]
+            ],
+            // T-блок
+            [
+                [1, 1, 1],
+                [0, 1, 0]
+            ],
+            // O-блок
+            [
+                [1, 1],
+                [1, 1]
+            ],
+            // S-блок
+            [
+                [0, 1, 1],
+                [1, 1, 0]
+            ],
+            // Z-блок
+            [
+                [1, 1, 0],
+                [0, 1, 1]
+            ],
+            // J-блок
+            [
+                [0, 1],
+                [0, 1],
+                [1, 1]
+            ]
+        ];
+
+        // Инициализация игры
+        function initGame() {
+            createGameBoard();
+            generateNextBlocks();
+            updateDisplay();
+            setupEventListeners();
+        }
+
+        // Создание игрового поля
+        function createGameBoard() {
+            const board = document.getElementById('gameBoard');
+            board.innerHTML = '';
+            gameBoard = [];
+
+            for (let row = 0; row < BOARD_HEIGHT; row++) {
+                gameBoard[row] = [];
+                for (let col = 0; col < BOARD_WIDTH; col++) {
+                    gameBoard[row][col] = 0;
+                    
+                    const cell = document.createElement('div');
+                    cell.className = 'cell';
+                    cell.dataset.row = row;
+                    cell.dataset.col = col;
+                    cell.addEventListener('click', () => placeBlock(row, col));
+                    board.appendChild(cell);
+                }
+            }
+        }
+
+        // Генерация следующих блоков
+        function generateNextBlocks() {
+            nextBlocks = [];
+            for (let i = 0; i < 2; i++) {
+                const randomShape = BLOCK_SHAPES[Math.floor(Math.random() * BLOCK_SHAPES.length)];
+                nextBlocks.push(randomShape);
+            }
+            updateNextBlocksDisplay();
+        }
+
+        // Обновление отображения следующих блоков
+        function updateNextBlocksDisplay() {
+            for (let i = 0; i < 2; i++) {
+                const preview = document.getElementById(`nextBlock${i + 1}`);
+                preview.innerHTML = '';
+                
+                const shape = nextBlocks[i];
+                const maxSize = 3;
+                
+                for (let row = 0; row < maxSize; row++) {
+                    for (let col = 0; col < maxSize; col++) {
+                        const cell = document.createElement('div');
+                        cell.className = 'preview-cell';
+                        
+                        if (row < shape.length && col < shape[row].length && shape[row][col]) {
+                            cell.classList.add('filled');
+                        }
+                        
+                        preview.appendChild(cell);
+                    }
+                }
+            }
+        }
+
+        // Размещение блока на поле
+        function placeBlock(row, col) {
+            if (!gameRunning || !canPlaceBlock(nextBlocks[0], row, col)) {
+                // Воспроизводим звук ошибки
+                if (window.soundManager) {
+                    window.soundManager.playClickSound();
+                }
+                return;
+            }
+
+            const shape = nextBlocks[0];
+            placeBlockOnBoard(shape, row, col);
+            
+            // Воспроизводим звук размещения
+            if (window.soundManager) {
+                window.soundManager.playPlaceSound();
+            }
+            
+            // Удаляем использованный блок и добавляем новый
+            nextBlocks.shift();
+            const randomShape = BLOCK_SHAPES[Math.floor(Math.random() * BLOCK_SHAPES.length)];
+            nextBlocks.push(randomShape);
+            
+            updateNextBlocksDisplay();
+            checkAndClearLines();
+            updateDisplay();
+            
+            // Проверяем, можно ли разместить следующий блок
+            if (!canPlaceAnyBlock()) {
+                endGame();
+            }
+        }
+
+        // Проверка возможности размещения блока
+        function canPlaceBlock(shape, startRow, startCol) {
+            for (let row = 0; row < shape.length; row++) {
+                for (let col = 0; col < shape[row].length; col++) {
+                    if (shape[row][col]) {
+                        const newRow = startRow + row;
+                        const newCol = startCol + col;
+                        
+                        if (newRow >= BOARD_HEIGHT || newCol >= BOARD_WIDTH || 
+                            newRow < 0 || newCol < 0 || 
+                            gameBoard[newRow][newCol]) {
+                            return false;
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+
+        // Размещение блока на доске
+        function placeBlockOnBoard(shape, startRow, startCol) {
+            for (let row = 0; row < shape.length; row++) {
+                for (let col = 0; col < shape[row].length; col++) {
+                    if (shape[row][col]) {
+                        const newRow = startRow + row;
+                        const newCol = startCol + col;
+                        gameBoard[newRow][newCol] = 1;
+                    }
+                }
+            }
+            updateBoardDisplay();
+        }
+
+        // Обновление отображения доски
+        function updateBoardDisplay() {
+            const cells = document.querySelectorAll('.cell');
+            cells.forEach(cell => {
+                const row = parseInt(cell.dataset.row);
+                const col = parseInt(cell.dataset.col);
+                
+                cell.classList.remove('filled', 'highlight');
+                if (gameBoard[row][col]) {
+                    cell.classList.add('filled');
+                }
+            });
+        }
+
+        // Проверка и очистка заполненных линий
+        function checkAndClearLines() {
+            let linesCleared = 0;
+            
+            // Проверяем строки
+            for (let row = 0; row < BOARD_HEIGHT; row++) {
+                if (gameBoard[row].every(cell => cell === 1)) {
+                    clearRow(row);
+                    linesCleared++;
+                }
+            }
+            
+            // Проверяем столбцы
+            for (let col = 0; col < BOARD_WIDTH; col++) {
+                let fullColumn = true;
+                for (let row = 0; row < BOARD_HEIGHT; row++) {
+                    if (gameBoard[row][col] !== 1) {
+                        fullColumn = false;
+                        break;
+                    }
+                }
+                if (fullColumn) {
+                    clearColumn(col);
+                    linesCleared++;
+                }
+            }
+            
+            if (linesCleared > 0) {
+                lines += linesCleared;
+                score += linesCleared * 100 * level;
+                const newLevel = Math.floor(lines / 10) + 1;
+                
+                // Воспроизводим звук очистки
+                if (window.soundManager) {
+                    window.soundManager.playClearSound();
+                }
+                
+                // Проверяем повышение уровня
+                if (newLevel > level) {
+                    level = newLevel;
+                    if (window.soundManager) {
+                        window.soundManager.playLevelUpSound();
+                    }
+                }
+                
+                // Анимация очистки
+                setTimeout(() => {
+                    updateBoardDisplay();
+                }, 200);
+            }
+        }
+
+        // Очистка строки
+        function clearRow(row) {
+            for (let col = 0; col < BOARD_WIDTH; col++) {
+                gameBoard[row][col] = 0;
+            }
+        }
+
+        // Очистка столбца
+        function clearColumn(col) {
+            for (let row = 0; row < BOARD_HEIGHT; row++) {
+                gameBoard[row][col] = 0;
+            }
+        }
+
+        // Проверка возможности размещения любого блока
+        function canPlaceAnyBlock() {
+            for (let row = 0; row < BOARD_HEIGHT; row++) {
+                for (let col = 0; col < BOARD_WIDTH; col++) {
+                    if (canPlaceBlock(nextBlocks[0], row, col)) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        // Обновление отображения
+        function updateDisplay() {
+            document.getElementById('score').textContent = score;
+            document.getElementById('level').textContent = level;
+            document.getElementById('lines').textContent = lines;
+        }
+
+        // Начало игры
+        function startGame() {
+            gameRunning = true;
+            document.getElementById('startBtn').textContent = 'Игра идет...';
+            document.getElementById('startBtn').disabled = true;
+            
+            // Воспроизводим фоновую музыку
+            if (window.soundManager) {
+                window.soundManager.playBackgroundMusic();
+            }
+        }
+
+        // Пауза игры
+        function pauseGame() {
+            gameRunning = !gameRunning;
+            document.getElementById('pauseBtn').textContent = gameRunning ? 'Пауза' : 'Продолжить';
+        }
+
+        // Перезапуск игры
+        function restartGame() {
+            gameRunning = false;
+            score = 0;
+            level = 1;
+            lines = 0;
+            createGameBoard();
+            generateNextBlocks();
+            updateDisplay();
+            document.getElementById('startBtn').textContent = 'Начать';
+            document.getElementById('startBtn').disabled = false;
+            document.getElementById('pauseBtn').textContent = 'Пауза';
+            document.getElementById('gameOver').classList.remove('show');
+        }
+
+        // Конец игры
+        function endGame() {
+            gameRunning = false;
+            document.getElementById('finalScore').textContent = score;
+            document.getElementById('gameOver').classList.add('show');
+            
+            // Воспроизводим звук окончания игры
+            if (window.soundManager) {
+                window.soundManager.playGameOverSound();
+            }
+            
+            showAd();
+        }
+
+        // Показ рекламы через Appodeal
+        function showAd() {
+            if (window.appodealManager && window.appodealManager.isAdReady()) {
+                window.appodealManager.showInterstitialAd();
+            } else {
+                // Fallback если реклама не готова
+                const adContainer = document.getElementById('ad-container');
+                adContainer.innerHTML = '<div>🎯 Показываем рекламу Appodeal 🎯</div>';
+                adContainer.style.background = '#e3f2fd';
+                adContainer.style.color = '#1976d2';
+                
+                setTimeout(() => {
+                    adContainer.innerHTML = '<div>Реклама Appodeal</div>';
+                    adContainer.style.background = '#f0f0f0';
+                    adContainer.style.color = '#666';
+                }, 3000);
+            }
+        }
+
+        // Добавление бонусных очков
+        function addBonusPoints(points) {
+            score += points;
+            updateDisplay();
+            
+            // Воспроизводим звук бонуса
+            if (window.soundManager) {
+                window.soundManager.playBonusSound();
+            }
+            
+            // Показываем анимацию бонусных очков
+            showBonusAnimation(points);
+        }
+
+        // Анимация бонусных очков
+        function showBonusAnimation(points) {
+            const scoreElement = document.getElementById('score');
+            const bonusElement = document.createElement('div');
+            bonusElement.textContent = `+${points}`;
+            bonusElement.style.cssText = `
+                position: absolute;
+                color: #4CAF50;
+                font-weight: bold;
+                font-size: 1.2rem;
+                pointer-events: none;
+                animation: bonusFloat 2s ease-out forwards;
+            `;
+            
+            scoreElement.style.position = 'relative';
+            scoreElement.appendChild(bonusElement);
+            
+            setTimeout(() => {
+                if (bonusElement.parentNode) {
+                    bonusElement.parentNode.removeChild(bonusElement);
+                }
+            }, 2000);
+        }
+
+        // Настройка обработчиков событий
+        function setupEventListeners() {
+            document.getElementById('startBtn').addEventListener('click', startGame);
+            document.getElementById('pauseBtn').addEventListener('click', pauseGame);
+            document.getElementById('restartBtn').addEventListener('click', restartGame);
+            document.getElementById('playAgainBtn').addEventListener('click', restartGame);
+            document.getElementById('rewardBtn').addEventListener('click', showRewardedAd);
+        }
+
+        // Показ наградной рекламы
+        function showRewardedAd() {
+            if (window.appodealManager) {
+                window.appodealManager.showRewardedAd();
+            } else {
+                // Fallback - даем бонус без рекламы
+                addBonusPoints(100);
+            }
+        }
+
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', () => {
+            initGame();
+            
+            // Делаем экземпляр игры доступным глобально для Appodeal
+            window.gameInstance = {
+                addBonusPoints: addBonusPoints,
+                score: () => score,
+                level: () => level
+            };
+        });
+    </script>
+</body>
+</html>
