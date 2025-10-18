@@ -1,0 +1,38 @@
+# Cordova/PhoneGap
+platforms/
+plugins/
+node_modules/
+
+# Build artifacts
+*.apk
+*.ipa
+*.app
+*.zip
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Signing keys
+*.keystore
+*.p12
+*.mobileprovision
+build.json
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Temporary files
+tmp/
+temp/
