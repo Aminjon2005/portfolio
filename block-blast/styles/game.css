@@ -1,0 +1,317 @@
+/* Игровые стили */
+.game-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+/* Верхняя панель */
+.top-panel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 0 10px;
+}
+
+.score-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.score, .level {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 8px 16px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    font-weight: bold;
+}
+
+.score .label, .level .label {
+    color: #ccc;
+    font-size: 12px;
+    margin-right: 5px;
+}
+
+.score span:last-child, .level span:last-child {
+    color: #ffd700;
+    font-size: 18px;
+}
+
+/* Игровое поле */
+.game-board-container {
+    position: relative;
+    margin: 0 auto 20px;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+#game-board {
+    display: block;
+    background: linear-gradient(135deg, #2c3e50, #34495e);
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+}
+
+.grid-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+    background-size: 40px 40px;
+    border-radius: 15px;
+}
+
+/* Панель блоков */
+.blocks-panel {
+    margin-bottom: 20px;
+}
+
+.next-blocks h3 {
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 18px;
+    color: #ccc;
+}
+
+.blocks-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.block-preview {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.block-preview:hover {
+    transform: scale(1.05);
+    border-color: #4ecdc4;
+    box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+}
+
+.block-preview.selected {
+    border-color: #ffd700;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.5);
+    transform: scale(1.1);
+}
+
+.block-preview.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.block-preview.disabled:hover {
+    transform: none;
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: none;
+}
+
+/* Прогресс и бонусы */
+.progress-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.progress-bar {
+    position: relative;
+    height: 25px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #4ecdc4, #44a08d);
+    border-radius: 15px;
+    transition: width 0.5s ease;
+    width: 0%;
+}
+
+.progress-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.combo-info {
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    color: #ffd700;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Блоки на поле */
+.game-block {
+    border-radius: 3px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.2s ease;
+}
+
+.game-block.filled {
+    background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.3);
+}
+
+.game-block.preview {
+    background: rgba(78, 205, 196, 0.5);
+    border-color: #4ecdc4;
+}
+
+.game-block.invalid {
+    background: rgba(255, 107, 107, 0.5);
+    border-color: #ff6b6b;
+}
+
+.game-block.clearing {
+    animation: clearBlock 0.5s ease-out;
+}
+
+@keyframes clearBlock {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(0);
+        opacity: 0;
+    }
+}
+
+/* Эффекты */
+.score-popup {
+    position: absolute;
+    color: #ffd700;
+    font-weight: bold;
+    font-size: 24px;
+    pointer-events: none;
+    animation: scorePopup 1s ease-out forwards;
+    z-index: 100;
+}
+
+@keyframes scorePopup {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(0.8);
+    }
+    50% {
+        transform: translateY(-20px) scale(1.2);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-40px) scale(1);
+    }
+}
+
+.line-clear-effect {
+    position: absolute;
+    background: linear-gradient(90deg, transparent, #ffd700, transparent);
+    height: 100%;
+    width: 100%;
+    animation: lineClear 0.8s ease-out;
+    pointer-events: none;
+    z-index: 50;
+}
+
+@keyframes lineClear {
+    0% {
+        opacity: 0;
+        transform: scaleX(0);
+    }
+    50% {
+        opacity: 1;
+        transform: scaleX(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scaleX(1);
+    }
+}
+
+/* Адаптивность для игры */
+@media (max-width: 768px) {
+    .game-container {
+        padding: 15px;
+    }
+    
+    #game-board {
+        width: 350px;
+        height: 350px;
+    }
+    
+    .block-preview {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .top-panel {
+        margin-bottom: 15px;
+    }
+    
+    .score span:last-child, .level span:last-child {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .game-container {
+        padding: 10px;
+    }
+    
+    #game-board {
+        width: 300px;
+        height: 300px;
+    }
+    
+    .block-preview {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .blocks-container {
+        gap: 10px;
+    }
+    
+    .next-blocks h3 {
+        font-size: 16px;
+    }
+    
+    .score, .level {
+        padding: 6px 12px;
+    }
+    
+    .score span:last-child, .level span:last-child {
+        font-size: 14px;
+    }
+}

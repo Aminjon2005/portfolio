@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Block Blast - Puzzle Game</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/game.css">
+    <link rel="stylesheet" href="styles/ui.css">
+    
+    <!-- Appodeal SDK -->
+    <script src="https://cdn.appodeal.com/production/javascript/appodeal.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- Главное меню -->
+        <div id="main-menu" class="screen active">
+            <div class="menu-container">
+                <h1 class="game-title">BLOCK BLAST</h1>
+                <div class="menu-buttons">
+                    <button id="play-btn" class="menu-btn primary">ИГРАТЬ</button>
+                    <button id="settings-btn" class="menu-btn">НАСТРОЙКИ</button>
+                    <button id="leaderboard-btn" class="menu-btn">РЕКОРДЫ</button>
+                </div>
+                <div class="best-score">
+                    <span>Лучший результат: <span id="best-score">0</span></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Игровой экран -->
+        <div id="game-screen" class="screen">
+            <div class="game-container">
+                <!-- Верхняя панель -->
+                <div class="top-panel">
+                    <button id="pause-btn" class="icon-btn">⏸</button>
+                    <div class="score-info">
+                        <div class="score">
+                            <span class="label">Очки:</span>
+                            <span id="current-score">0</span>
+                        </div>
+                        <div class="level">
+                            <span class="label">Уровень:</span>
+                            <span id="current-level">1</span>
+                        </div>
+                    </div>
+                    <button id="home-btn" class="icon-btn">🏠</button>
+                </div>
+
+                <!-- Игровое поле -->
+                <div class="game-board-container">
+                    <canvas id="game-board" width="400" height="400"></canvas>
+                    <div class="grid-overlay"></div>
+                </div>
+
+                <!-- Панель блоков -->
+                <div class="blocks-panel">
+                    <div class="next-blocks">
+                        <h3>Следующие блоки:</h3>
+                        <div class="blocks-container">
+                            <canvas id="block1" class="block-preview" width="80" height="80"></canvas>
+                            <canvas id="block2" class="block-preview" width="80" height="80"></canvas>
+                            <canvas id="block3" class="block-preview" width="80" height="80"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Прогресс и бонусы -->
+                <div class="progress-panel">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill"></div>
+                        <span class="progress-text">До следующего уровня</span>
+                    </div>
+                    <div class="combo-info">
+                        <span id="combo-text">Комбо: x1</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Экран паузы -->
+        <div id="pause-screen" class="screen overlay">
+            <div class="pause-container">
+                <h2>ПАУЗА</h2>
+                <div class="pause-buttons">
+                    <button id="resume-btn" class="menu-btn primary">ПРОДОЛЖИТЬ</button>
+                    <button id="restart-btn" class="menu-btn">ЗАНОВО</button>
+                    <button id="menu-btn" class="menu-btn">МЕНЮ</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Экран окончания игры -->
+        <div id="game-over-screen" class="screen overlay">
+            <div class="game-over-container">
+                <h2>ИГРА ОКОНЧЕНА</h2>
+                <div class="final-stats">
+                    <div class="stat">
+                        <span class="stat-label">Очки:</span>
+                        <span id="final-score">0</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Уровень:</span>
+                        <span id="final-level">1</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Линий очищено:</span>
+                        <span id="lines-cleared">0</span>
+                    </div>
+                </div>
+                <div class="game-over-buttons">
+                    <button id="play-again-btn" class="menu-btn primary">ИГРАТЬ СНОВА</button>
+                    <button id="share-btn" class="menu-btn">ПОДЕЛИТЬСЯ</button>
+                    <button id="back-menu-btn" class="menu-btn">МЕНЮ</button>
+                </div>
+                <!-- Место для рекламы -->
+                <div id="ad-container" class="ad-container"></div>
+            </div>
+        </div>
+
+        <!-- Экран настроек -->
+        <div id="settings-screen" class="screen">
+            <div class="settings-container">
+                <h2>НАСТРОЙКИ</h2>
+                <div class="settings-list">
+                    <div class="setting-item">
+                        <span>Звук:</span>
+                        <label class="toggle">
+                            <input type="checkbox" id="sound-toggle" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <span>Музыка:</span>
+                        <label class="toggle">
+                            <input type="checkbox" id="music-toggle" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <span>Вибрация:</span>
+                        <label class="toggle">
+                            <input type="checkbox" id="vibration-toggle" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+                <button id="settings-back-btn" class="menu-btn">НАЗАД</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Скрипты -->
+    <script src="js/appodeal-integration.js"></script>
+    <script src="js/game-logic.js"></script>
+    <script src="js/blocks.js"></script>
+    <script src="js/ui-manager.js"></script>
+    <script src="js/sound-manager.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
