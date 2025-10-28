@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>Block Blast - Puzzle Game</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div id="game-container">
+        <!-- Header with score and best score -->
+        <div id="header">
+            <div class="score-container">
+                <div class="score-label">SCORE</div>
+                <div id="score" class="score-value">0</div>
+            </div>
+            <div class="title">Block Blast</div>
+            <div class="score-container">
+                <div class="score-label">BEST</div>
+                <div id="best-score" class="score-value">0</div>
+            </div>
+        </div>
+
+        <!-- Main game board -->
+        <div id="game-board-container">
+            <canvas id="game-board"></canvas>
+        </div>
+
+        <!-- Pieces container -->
+        <div id="pieces-container">
+            <canvas id="piece-1" class="piece-canvas"></canvas>
+            <canvas id="piece-2" class="piece-canvas"></canvas>
+            <canvas id="piece-3" class="piece-canvas"></canvas>
+        </div>
+
+        <!-- Game over overlay -->
+        <div id="game-over" class="hidden">
+            <div class="overlay-content">
+                <h2>Game Over!</h2>
+                <p>Your Score: <span id="final-score">0</span></p>
+                <p>Best Score: <span id="final-best-score">0</span></p>
+                <button id="restart-btn" class="btn-primary">Play Again</button>
+            </div>
+        </div>
+
+        <!-- Menu button -->
+        <div id="menu-container">
+            <button id="new-game-btn" class="btn-secondary">New Game</button>
+            <button id="sound-toggle" class="btn-secondary">🔊 Sound</button>
+        </div>
+    </div>
+
+    <!-- Ad container for Appodeal -->
+    <div id="ad-container"></div>
+
+    <!-- Scripts -->
+    <script type="text/javascript" src="cordova.js"></script>
+    <script src="js/appodeal.js"></script>
+    <script src="js/blocks.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

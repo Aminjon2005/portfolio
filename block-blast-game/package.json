@@ -1,0 +1,44 @@
+{
+  "name": "block-blast-game",
+  "version": "1.0.0",
+  "description": "A Block Blast puzzle game with Appodeal integration",
+  "main": "index.js",
+  "scripts": {
+    "start": "cordova run browser",
+    "build:android": "cordova build android",
+    "build:ios": "cordova build ios",
+    "run:android": "cordova run android",
+    "run:ios": "cordova run ios",
+    "prepare": "cordova prepare",
+    "clean": "cordova clean"
+  },
+  "keywords": [
+    "game",
+    "puzzle",
+    "block-blast",
+    "cordova",
+    "mobile",
+    "appodeal"
+  ],
+  "author": "Block Blast Game Team",
+  "license": "MIT",
+  "cordova": {
+    "platforms": [
+      "android",
+      "ios"
+    ],
+    "plugins": {
+      "cordova-plugin-whitelist": {},
+      "cordova-plugin-device": {},
+      "cordova-plugin-statusbar": {},
+      "cordova-plugin-splashscreen": {},
+      "cordova-plugin-vibration": {},
+      "cordova-plugin-network-information": {}
+    }
+  },
+  "devDependencies": {
+    "cordova": "^12.0.0",
+    "cordova-android": "^12.0.0",
+    "cordova-ios": "^7.0.0"
+  }
+}

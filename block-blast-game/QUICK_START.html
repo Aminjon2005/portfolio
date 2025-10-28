@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Block Blast - Quick Start</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin: 15px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        .info {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .info h3 {
+            color: #667eea;
+            margin-top: 0;
+        }
+        .info ul {
+            padding-left: 20px;
+        }
+        .info li {
+            margin: 10px 0;
+        }
+        code {
+            background: #333;
+            color: #0ff;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎮 Block Blast Game</h1>
+        
+        <a href="www/index.html" class="btn">▶️ Play Now (Browser Mode)</a>
+        
+        <div class="info">
+            <h3>📱 For Mobile Deployment:</h3>
+            <ul>
+                <li>Read <code>README.md</code> or <code>README_RU.md</code></li>
+                <li>Follow steps in <code>SETUP_GUIDE.md</code></li>
+                <li>Install Cordova: <code>npm install -g cordova</code></li>
+                <li>Run: <code>npm install</code></li>
+                <li>Add platform: <code>cordova platform add android</code></li>
+                <li>Build: <code>cordova build android</code></li>
+            </ul>
+        </div>
+        
+        <div class="info">
+            <h3>🔑 Appodeal Integration:</h3>
+            <ul>
+                <li>Register at <a href="https://www.appodeal.com/" target="_blank">Appodeal.com</a></li>
+                <li>Get your App Keys</li>
+                <li>Update keys in <code>www/js/appodeal.js</code></li>
+                <li>Install plugin: <code>cordova plugin add appodeal-cordova-plugin</code></li>
+            </ul>
+        </div>
+        
+        <div class="info">
+            <h3>🎯 Game Features:</h3>
+            <ul>
+                <li>✅ Classic block puzzle gameplay (8x8 grid)</li>
+                <li>✅ 30+ unique block shapes</li>
+                <li>✅ Line clearing mechanics</li>
+                <li>✅ Score tracking with best score</li>
+                <li>✅ Modern, responsive UI</li>
+                <li>✅ Touch-optimized for mobile</li>
+                <li>✅ Appodeal ads integration ready</li>
+            </ul>
+        </div>
+        
+        <a href="README.md" class="btn" style="background: #555;">📖 Read Documentation</a>
+    </div>
+</body>
+</html>
